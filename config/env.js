@@ -9,4 +9,6 @@ export const {
     JWT_SECRET,
     JWT_EXPIRES_IN,
     COOKIE_SECRET,
+    ARCJET_KEY,
+    ARCJET_ENV,
 } = process.env
