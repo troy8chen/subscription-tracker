@@ -1,37 +1,36 @@
 const errorMiddleware = (err, req, res, next) => {
     try {
         let error = { ...err };
+
         error.message = err.message;
-        console.log(error);
+
+        console.error(err);
 
         // Mongoose bad ObjectId
         if (err.name === 'CastError') {
-            const message = `Invalid ${err.path}: ${err.value}`;
-            error = new Error(message);
-            error.statusCode = 400;
+        const message = 'Resource not found';
+        error = new Error(message);
+        error.statusCode = 404;
         }
-        
+
         // Mongoose duplicate key
         if (err.code === 11000) {
-            const message = 'Duplicate field value entered';
-            error = new Error(message);
-            error.statusCode = 400;
+        const message = 'Duplicate field value entered';
+        error = new Error(message);
+        error.statusCode = 400;
         }
 
         // Mongoose validation error
         if (err.name === 'ValidationError') {
-            const message = Object.values(err.errors).map(val => val.message);
-            error = new Error(message.join(', '));
-            error.statusCode = 400;
+        const message = Object.values(err.errors).map(val => val.message);
+        error = new Error(message.join(', '));
+        error.statusCode = 400;
         }
 
-        res.starus(err.statusCode || 500).json({success: false, error: error.message || 'Server Error'})
+        res.status(error.statusCode || 500).json({ success: false, error: error.message || 'Server Error' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            message: 'Internal server error',
-        });
+        next(error);
     }
-}
-
-export default errorMiddleware;
+  };
+  
+  export default errorMiddleware;

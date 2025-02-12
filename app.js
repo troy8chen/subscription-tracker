@@ -6,14 +6,15 @@ import subscriptionRouter from "./routes/subscription.routes.js";
 import connectToDatabase from "./database/mongodb.js";
 import errorMiddleware from "./middlewares/error.middleware.js";
 import cookieParser from "cookie-parser";
+
 const app = express();
 
 app.use(express.json()); // Parse JSON bodies in the request
-app.use(express.urlencoded({ extended: false })); // Parse URL-encoded bodies in the request
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies in the request
 app.use(cookieParser()); // Parse cookies in the request
 
-app.use("/api/v1/users", userRouter);
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/users", userRouter);
 app.use("/api/v1/subscriptions", subscriptionRouter);
 
 app.use(errorMiddleware);
