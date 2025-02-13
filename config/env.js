@@ -11,4 +11,8 @@ export const {
     COOKIE_SECRET,
     ARCJET_KEY,
     ARCJET_ENV,
+    QSTASH_URL,
+    QSTASH_TOKEN,
+    SERVER_URL,
+    EMAIL_PASSWORD,
 } = process.env
